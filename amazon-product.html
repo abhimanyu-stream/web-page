@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Refine Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-image {
+            position: relative;
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: auto;
+            cursor: crosshair;
+        }
+
+        .thumbnail-carousel {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .thumbnail-carousel img {
+            width: 80px;
+            height: 80px;
+            margin: 0 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 4px;
+        }
+
+        .thumbnail-carousel img.active {
+            border-color: #007bff;
+        }
+
+        #imgTagWrapperId {
+            height: 545px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #imgTagWrapperId img {
+            max-width: 545px;
+            max-height: 545px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="imgTagWrapperId" class="imgTagWrapper" style="height: 545px;">
+            <img alt="boAt Aavante Bar Mystiq Soundbar with 100W RMS Signature Sound, 2.1 CH,Multi-Connectivity Modes,BT v5.3,Wired Subwoofer,EQ Modes,Bass &amp;amp; Treble Control &amp;amp; Remote Control(Pitch Black)"
+                src="https://m.media-amazon.com/images/I/71m670zYOXL._SX679_.jpg"
+                data-old-hires="https://m.media-amazon.com/images/I/71m670zYOXL._SL1500_.jpg"
+                onload="markFeatureRenderForImageBlock(); this.onload='';setCSMReq('af');if(typeof addlongPoleTag === 'function'){ addlongPoleTag('af','desktop-image-atf-marker');};setCSMReq('cf')"
+                data-a-image-name="landingImage" class="a-dynamic-image a-stretch-vertical" id="landingImage"
+                data-a-dynamic-image="{&quot;https://m.media-amazon.com/images/I/71m670zYOXL._SX466_.jpg&quot;:[466,466],&quot;https://m.media-amazon.com/images/I/71m670zYOXL._SX569_.jpg&quot;:[569,569],&quot;https://m.media-amazon.com/images/I/71m670zYOXL._SY355_.jpg&quot;:[355,355],&quot;https://m.media-amazon.com/images/I/71m670zYOXL._SY450_.jpg&quot;:[450,450],&quot;https://m.media-amazon.com/images/I/71m670zYOXL._SX425_.jpg&quot;:[425,425],&quot;https://m.media-amazon.com/images/I/71m670zYOXL._SX522_.jpg&quot;:[522,522],&quot;https://m.media-amazon.com/images/I/71m670zYOXL._SX679_.jpg&quot;:[679,679]}"
+                style="max-width: 545px; max-height: 545px;">
+        </div>
+        <div class="thumbnail-carousel">
+            <img class="thumbnail" src="https://m.media-amazon.com/images/I/71m670zYOXL._SX466_.jpg" alt="Thumbnail 1">
+            <img class="thumbnail" src="https://m.media-amazon.com/images/I/71m670zYOXL._SX569_.jpg" alt="Thumbnail 2">
+            <img class="thumbnail" src="https://m.media-amazon.com/images/I/71m670zYOXL._SY355_.jpg" alt="Thumbnail 3">
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mainImage = document.getElementById('landingImage');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function () {
+                    // Change main image source
+                    mainImage.src = this.src;
+
+                    // Highlight active thumbnail
+                    thumbnails.forEach(img => img.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Reinitialize zoom
+                    $(mainImage).data('elevateZoom').swaptheimage(this.src, this.src);
+                });
+            });
+
+            // Initialize elevateZoom
+            $(mainImage).elevateZoom({
+                zoomType: "inner",
+                cursor: "crosshair"
+            });
+        });
+    </script>
+</body>
+
+</html>

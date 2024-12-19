@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Image Magnifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main image section */
+        .main-image-wrapper {
+            position: relative;
+            width: 50%;
+        }
+
+        .main-image-wrapper img {
+            width: 100%;
+            height: auto;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        /* Zoom lens (hover area) */
+        .zoom-lens {
+            position: absolute;
+            border: 2px solid #000;
+            background-color: rgba(0, 0, 0, 0.5);
+            cursor: zoom-in;
+            display: none;
+            pointer-events: none;
+            width: 100px;
+            height: 100px;
+        }
+
+        /* Zoomed image section */
+        .zoomed-image-wrapper {
+            width: 45%;
+            border: 1px solid #ddd;
+            height: 400px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .zoom-result {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ddd;
+            background-size: 200%;
+            background-repeat: no-repeat;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Left Side: Main Image -->
+        <div class="main-image-wrapper">
+            <img src="https://m.media-amazon.com/images/I/71m670zYOXL._SX679_.jpg" id="mainImage" alt="Product Image">
+            <!-- Zoom lens -->
+            <div class="zoom-lens" id="zoomLens"></div>
+        </div>
+        <!-- Right Side: Zoomed Image -->
+        <div class="zoomed-image-wrapper">
+            <div class="zoom-result" id="zoomResult"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mainImage = document.getElementById('mainImage');
+            const zoomLens = document.getElementById('zoomLens');
+            const zoomResult = document.getElementById('zoomResult');
+            const zoomFactor = 2; // Zoom in factor for the background
+
+            // Show zoom effect and lens on mouse enter
+            mainImage.addEventListener('mouseenter', function () {
+                const imageWidth = mainImage.width;
+                const imageHeight = mainImage.height;
+
+                // Show zoom result and lens
+                zoomResult.style.display = "block";
+                zoomLens.style.display = "block";
+                zoomResult.style.backgroundImage = `url(${mainImage.src})`;
+                zoomResult.style.backgroundSize = `${imageWidth * zoomFactor}px ${imageHeight * zoomFactor}px`;
+            });
+
+            // Move zoom lens and zoom result based on mouse move
+            mainImage.addEventListener('mousemove', function (e) {
+                const bounds = mainImage.getBoundingClientRect();
+                const imageWidth = mainImage.width;
+                const imageHeight = mainImage.height;
+                const lensWidth = zoomLens.offsetWidth;
+                const lensHeight = zoomLens.offsetHeight;
+
+                // Calculate lens position
+                let x = e.pageX - bounds.left - lensWidth / 2;
+                let y = e.pageY - bounds.top - lensHeight / 2;
+
+                // Prevent lens from going outside the image bounds
+                if (x > imageWidth - lensWidth) {
+                    x = imageWidth - lensWidth;
+                }
+                if (x < 0) {
+                    x = 0;
+                }
+                if (y > imageHeight - lensHeight) {
+                    y = imageHeight - lensHeight;
+                }
+                if (y < 0) {
+                    y = 0;
+                }
+
+                // Position the zoom lens
+                zoomLens.style.left = `${x}px`;
+                zoomLens.style.top = `${y}px`;
+
+                // Adjust the zoom result background position
+                zoomResult.style.backgroundPosition = `-${x * zoomFactor}px -${y * zoomFactor}px`;
+            });
+
+            // Hide zoom effect when mouse leaves the image
+            mainImage.addEventListener('mouseleave', function () {
+                zoomLens.style.display = "none";
+                zoomResult.style.display = "none";
+            });
+        });
+    </script>
+
+</body>
+
+</html>
